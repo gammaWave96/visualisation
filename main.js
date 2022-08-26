@@ -4,36 +4,70 @@ var c = canvas.getContext('2d');
 //canvas.width = window.innerWidth;
 //canvas.height = windows.innerHeight;
 
-var time_point_past_frame = Date.now();
-var time_point_current_frame;
-var time_delta;
-var time_accumulator=0;//time accumulator
+//
+//Goal is to calculate time beetween animation and drawing "frames" 
+//
+
+//miliseconds are in use
+var time_point_current_frame = Date.now();
+var time_point_past_frame = time_point_current_frame;
+
+var time_accumulator = 0;//time accumulator
+var time_execution_banned_range = 1000/60;//fps regulation
+
+//Keeps difference beetween two time points
+var time_delta=0;
+
+
+var animation_activity = false;
+var animation_fps=0;
 
 
 function mainloop()
 {
-    requestAnimationFrame(mainloop);
-    //if time is accumulated perform animation
+    //
+    //time difference and timeaccumulator
+    //
+    time_point_current_frame = Date.now();
+    time_delta =  time_point_current_frame - time_point_past_frame;
+    time_point_past_frame = time_point_current_frame;
 
-    //time accumulator
-    //time_accumulator+= ?diff
-
-    //calculate time difference
-    var time_difference = time_point_past_frame - Date.now();
-    console.log("time accumulator = " + time_accumulator);
-    /*if(time_delta>1000)
+    time_accumulator += time_delta;
+    if(time_accumulator >= time_execution_banned_range)
     {
-        console.log(time_delta);
-    }*/
+        animation_activity = true;
+        time_delta = time_accumulator;
+        time_accumulator = 0;
+        animation_fps = 1000 / time_delta;
+    }
+    else
+    {
+        animation_activity = false;
+    }
+    //else wait next frame
 
-    //document.getElementById("demo").innerHTML = time_delta.toString();
+
+    //
+    //if time is accumulated perform animation
+    //animation
+    //
+
+    if(animation_activity == true)
+    {
+        //effects,time manipulation...
+
+        //paint,draw...
+        console.log("time delta    :"+time_delta);
+        console.log("fps:          :"+animation_fps);
+        //document.getElementById("demo").innerHTML = time_delta.toString();
+
+    }
 
     //requesting to call function after next time 
     //when ?(function is completed and before browser is redrawing)
-    //and works only once
+    //and  ?works only once
 
-    //requestAnimationFrame(animate);
-    //setTimeout(animate, 1000);
+    requestAnimationFrame(mainloop);
 }
 
 mainloop();
