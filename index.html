@@ -2,10 +2,34 @@
 <p id="demo"></p>
 <html>
     <body>
-        <canvas id="myCanvas" width="640" height="360" style="border:10px solid #d3d3d3;">
-        Your browser does not support the HTML5 canvas tag.</canvas>
+        <canvas 
+            id="myCanvas" 
+            width="640" 
+            height="360" 
+            style="border:10px solid #d3d3d3;"
+        >
+            Your browser does not support the HTML5 canvas tag.
+        </canvas>
 
-        <script src='main.js'></script> 
+        <script>
+            //miliseconds are in use
+            var time_point = Date.now();
+            function time_delta()
+            {
+                var time_delta = Date.now() - time_point
+                time_point = Date.now();
+                return time_delta;
+            }
+            
+            function animation()
+            {
+                console.log("time delta     :" + time_delta());
+                
+                requestAnimationFrame(animation);
+            }
+            animation();
+        </script>
+
 
     </body>
 </html>
