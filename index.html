@@ -1,30 +1,49 @@
 <!DOCTYPE html>
 <p id="demo"></p>
+
 <html>
-    <body>
+    <body style="background-color:black;">
         <canvas 
-            id="myCanvas" 
+            id="360p" 
             width="640" 
-            height="360" 
-            style="border:10px solid #d3d3d3;"
+            height="360"
+            style="border:10px solid #FF0000;"
         >
             Your browser does not support the HTML5 canvas tag.
         </canvas>
 
         <script>
+            var c = document.getElementById("360p");
+            var ctx = c.getContext("2d");
+            
+
             //miliseconds are in use
             var time_point = Date.now();
-            function time_delta()
+            function timeDelta()
             {
                 var time_delta = Date.now() - time_point
                 time_point = Date.now();
                 return time_delta;
             }
             
+            
+            var ttime=0;
             function animation()
             {
-                console.log("time delta     :" + time_delta());
+                var time_delta =  timeDelta();
                 
+                ttime+=time_delta/1000;
+                //console.log(time_delta);
+                //console.log(ttime);
+
+
+                var energy = Math.sin(ttime)*256;
+                ctx.strokeStyle = "rgb("+energy+",0,0)";
+                //ctx.strokeStyle = "rgb("+128+",0,0)";
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(300, 150);
+                ctx.stroke();
                 requestAnimationFrame(animation);
             }
             animation();
