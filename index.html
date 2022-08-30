@@ -7,7 +7,7 @@
             id="360p" 
             width="640" 
             height="360"
-            style="border:10px solid #FF0000;"
+            style="border:10px solid #F00000;"
         >
             Your browser does not support the HTML5 canvas tag.
         </canvas>
@@ -18,32 +18,40 @@
             
 
             //miliseconds are in use
-            var time_point = Date.now();
-            function timeDelta()
+            var dateNow = Date.now();
+            function date()
             {
-                var time_delta = Date.now() - time_point
-                time_point = Date.now();
-                return time_delta;
+                var date = Date.now() - dateNow
+                dateNow = Date.now();
+                return date;
             }
-            
-            
-            var ttime=0;
+                       
+            var ttime = 0;
             function animation()
             {
-                var time_delta =  timeDelta();
+                var animationDate = date();
                 
-                ttime+=time_delta/1000;
-                //console.log(time_delta);
-                //console.log(ttime);
-
-
+                ttime+=animationDate / 1000;
                 var energy = Math.sin(ttime)*256;
+
                 ctx.strokeStyle = "rgb("+energy+",0,0)";
-                //ctx.strokeStyle = "rgb("+128+",0,0)";
+                ctx.lineWidth = 10;
+
+
                 ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.lineTo(300, 150);
+
+                ctx.moveTo(
+                    0, 
+                    360/2
+                    );
+
+                ctx.lineTo(
+                    640, 
+                    360/2
+                    );  
+
                 ctx.stroke();
+
                 requestAnimationFrame(animation);
             }
             animation();
